@@ -10,11 +10,15 @@ import Foundation
 class Main {
     
     // MARK: - Properties
-
+    
     private var bugerCount = 0
-
+    
     // Menu 객체 생성
-    let menu = Menu(products: [
+    let menu = Menu(categories: [
+        Categories(name: "Burgers", description: "앵거스 비프 통살을 다져만든 버거"),
+        Categories(name: "Frozen Custard", description: "매장에서 신선하게 만드는 아이스크림"),
+        Categories(name: "Drinks", description: "매장에서 직접 만드는 음료")
+    ], products: [
         Burger(name: "ShackBurger", price: 6900, description: "토마토, 양상추, 쉑소스가 토핑된 치즈버거"),
         Burger(name: "SmokeShack", price: 8900, description: "베이컨, 체리 페퍼에 쉑소스가 토핑된 치즈버거"),
         Burger(name: "Shroom Burger", price: 9400, description: "몬스터 치즈와 체다 치즈로 속을 채운 베지테리안 버거"),
@@ -25,15 +29,22 @@ class Main {
         Drink(name: "Coke", price: 2000, description: "콜라"),
         Drink(name: "Sprite", price: 2000, description: "스프라이트")
     ])
+    
+    // MARK: - Initialization
+    
+    init(bugerCount: Int = 0) {
+        self.bugerCount = bugerCount
+    }
 }
 
 // MARK: - Extension
 
 extension Main {
-
+    
+    // 실행 함수
     func run() {
-        menu.printMenu()
-
+        menu.printMenu(viewType: .categories)
+        
         repeat {
             handleUserInput()
             bugerCount += 1
@@ -44,7 +55,6 @@ extension Main {
         guard let input = readLine() else { return }
         
         if let number = Int(input) {
-            
             switch number {
             case 1...menu.products.count:
                 if let selectedProduct = menu.selectProduct(at: number - 1) {

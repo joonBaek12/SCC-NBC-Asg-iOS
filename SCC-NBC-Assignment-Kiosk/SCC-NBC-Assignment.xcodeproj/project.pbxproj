@@ -99,7 +99,6 @@
 				37D4BF222B2088340086577F /* Protocols */,
 				37D4BF232B208DDE0086577F /* Elements */,
 				3744D5D52B21A83400ECDEC5 /* Views */,
-				37D4BF2A2B21948E0086577F /* Menu.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -124,6 +123,7 @@
 		37D4BF232B208DDE0086577F /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				37D4BF2A2B21948E0086577F /* Menu.swift */,
 				37D444C22B22B58B0036A665 /* Categories.swift */,
 				37D4BF242B21934F0086577F /* Burger.swift */,
 				37D4BF262B2193B90086577F /* FrozenCustard.swift */,
