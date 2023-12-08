@@ -5,8 +5,6 @@
 //  Created by Joon Baek on 2023/12/06.
 //
 
-protocol ProductProtocol: Any {
-    var name: String? { get set }
+protocol ProductInfoProtocol: TitleDisplayable {
     var price: Int? { get set }
-    var description: String? { get set }
 }

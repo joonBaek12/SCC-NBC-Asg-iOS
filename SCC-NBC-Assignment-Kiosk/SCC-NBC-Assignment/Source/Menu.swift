@@ -8,9 +8,9 @@
 import Foundation
 
 class Menu {
-    var products: [ProductProtocol]
+    var products: [ProductInfoProtocol]
     
-    init(products: [ProductProtocol]) {
+    init(products: [ProductInfoProtocol]) {
         self.products = products
     }
     
@@ -22,7 +22,7 @@ class Menu {
         print("0. 종료")
     }
     
-    func selectProduct(at index: Int) -> ProductProtocol? {
+    func selectProduct(at index: Int) -> ProductInfoProtocol? {
         if index >= 0 && index < products.count {
             return products[index]
         }

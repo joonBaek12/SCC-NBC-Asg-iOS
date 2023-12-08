@@ -1,5 +1,5 @@
 //
-//  Drink.swift
+//  Burger.swift
 //  SCC-NBC-Assignment
 //
 //  Created by Joon Baek on 2023/12/07.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Drink: ProductProtocol {
+class Burger: ProductInfoProtocol {
     var name: String?
     var price: Int?
     var description: String?

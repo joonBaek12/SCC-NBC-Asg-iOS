@@ -1,5 +1,5 @@
 //
-//  FrozenCustard.swift
+//  Drink.swift
 //  SCC-NBC-Assignment
 //
 //  Created by Joon Baek on 2023/12/07.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FrozenCustard: ProductProtocol {
+class Drink: ProductInfoProtocol {
     var name: String?
     var price: Int?
     var description: String?
