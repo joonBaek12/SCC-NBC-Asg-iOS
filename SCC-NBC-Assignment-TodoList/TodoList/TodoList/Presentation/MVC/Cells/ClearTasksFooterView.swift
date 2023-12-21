@@ -13,7 +13,7 @@ protocol ClearTasksFooterViewDelegate: AnyObject {
 
 // MARK: - ClearTasksFooterView
 
-class ClearTasksFooterView: UITableViewHeaderFooterView {
+final class ClearTasksFooterView: UITableViewHeaderFooterView {
     
     // MARK: - Properties
     

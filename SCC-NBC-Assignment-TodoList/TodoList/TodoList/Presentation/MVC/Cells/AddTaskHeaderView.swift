@@ -13,7 +13,7 @@ protocol AddTaskHeaderViewDelegate: AnyObject {
 
 // MARK: - AddTaskHeaderView
 
-class AddTaskHeaderView: UITableViewHeaderFooterView {
+final class AddTaskHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Properties
     

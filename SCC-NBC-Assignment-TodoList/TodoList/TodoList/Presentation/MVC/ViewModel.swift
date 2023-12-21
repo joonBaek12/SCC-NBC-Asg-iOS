@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ViewModel {
+final class ViewModel {
     private var taskTitle: String = ""
     private var isCompleted: Bool = false
     private var todos: [String] = []
@@ -36,5 +36,9 @@ extension ViewModel {
     
     func deleteTodo(at index: Int) {
         todos.remove(at: index)
+    }
+    
+    func clearAllTodo() {
+        todos = []
     }
 }

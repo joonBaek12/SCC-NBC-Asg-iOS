@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - TodoTableViewCell
 
-class TodoTableViewCell: UITableViewCell {
+final class TodoTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
@@ -82,7 +82,7 @@ extension TodoTableViewCell {
     
     // MARK: - Reusable Helper
     
-    class func createAddTaskStackView() -> UIStackView {
+    static func createAddTaskStackView() -> UIStackView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
