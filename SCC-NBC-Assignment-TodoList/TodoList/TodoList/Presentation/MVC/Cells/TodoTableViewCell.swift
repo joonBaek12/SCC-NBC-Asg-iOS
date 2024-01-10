@@ -51,7 +51,7 @@ extension TodoTableViewCell {
     // MARK: - Layout Helper
     
     private func setLayout() {
-        addSubview(containerStackView)
+        contentView.addSubview(containerStackView)
         
         [todoLabel, todoSegment].forEach { containerStackView.addArrangedSubview($0) }
         
@@ -109,9 +109,9 @@ extension TodoTableViewCell {
         let selectedIndex = todoSegment.selectedSegmentIndex
         
         if selectedIndex == 0 {
-            setLabelProperties(textColor: .black, strikethrough: false)
-        } else {
             setLabelProperties(textColor: .gray, strikethrough: true)
+        } else {
+            setLabelProperties(textColor: .black, strikethrough: false)
         }
     }
 }

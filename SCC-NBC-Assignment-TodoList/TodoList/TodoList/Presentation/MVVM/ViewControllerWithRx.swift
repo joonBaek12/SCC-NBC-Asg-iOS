@@ -10,8 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-// 미완성입니다 🥲
-
 final class ViewControllerWithRx: UIViewController {
     
     // MARK: - Properties
@@ -122,16 +120,16 @@ extension ViewControllerWithRx: AddTaskHeaderViewDelegate {
     }
 }
 
-extension ViewControllerWithRx: ClearTasksFooterViewDelegate {
-    func numberOfPendingTasks() -> Int {
-        return viewModel?.numberOfTodos() ?? 0
-    }
-
-    func clearTasksButtonTapped() {
-//        viewModel?.clearAllTodos()
-        // 위에서 구현한 todoObservable을 통해 자동으로 갱신되므로 따로 reloadData를 호출할 필요 X
-    }
-}
+//extension ViewControllerWithRx: ClearTasksFooterViewDelegate {
+//    func numberOfPendingTasks() -> Int {
+//        return viewModel?.numberOfTodos() ?? 0
+//    }
+//
+//    func clearTasksButtonTapped() {
+////        viewModel?.clearAllTodos()
+//        // 위에서 구현한 todoObservable을 통해 자동으로 갱신되므로 따로 reloadData를 호출할 필요 X
+//    }
+//}
 
 // MARK: - Bindings
 extension ViewControllerWithRx {
