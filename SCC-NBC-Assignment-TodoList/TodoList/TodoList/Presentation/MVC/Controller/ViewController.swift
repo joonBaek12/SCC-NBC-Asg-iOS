@@ -13,7 +13,7 @@ final class ViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var viewModel: ViewModel?
+    private var model: Model?
     
     // MARK: - UI Properties
     
@@ -22,8 +22,8 @@ final class ViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    init(model: Model) {
+        self.model = model
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -124,14 +124,14 @@ extension ViewController {
 
 extension ViewController: AddTaskHeaderViewDelegate {
     func addTaskButtonTapped(with text: String, at indexPath: IndexPath) {
-        viewModel?.addTodo(with: text)
+        model?.addTodo(with: text)
         todoTableView.reloadData()
     }
 }
 
 extension ViewController: ClearTasksFooterViewDelegate {
     func numberOfPendingTasks() -> Int {
-        viewModel?.numberOfTodos() ?? 0
+        model?.numberOfTodos() ?? 0
     }
 }
 
@@ -164,7 +164,7 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            viewModel?.deleteTodo(at: indexPath.row)
+            model?.deleteTodo(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -174,7 +174,7 @@ extension ViewController: UITableViewDelegate {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = viewModel?.numberOfTodos() ?? 0
+        let count = model?.numberOfTodos() ?? 0
         let footerView = tableView.tableFooterView as? ClearTasksFooterView
         
         footerView?.updateDescriptionLabel()
@@ -187,7 +187,7 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let todoText = viewModel?.getTodo(at: indexPath.row)
+        let todoText = model?.getTodo(at: indexPath.row)
         cell.configureTodoLabel(with: todoText ?? "")
         cell.indexPath = indexPath
         

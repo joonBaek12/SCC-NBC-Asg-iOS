@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  Model.swift
 //  Joon'sTodoList-iOS
 //
 //  Created by Joon Baek on 2023/12/15.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-final class ViewModel {
+final class Model {
     private var taskTitle: String = ""
     private var isCompleted: Bool = false
     private var todos: [String] = []
 }
 
-extension ViewModel {
+extension Model {
     func setTextTitle(with title: String) {
         taskTitle = title
     }
