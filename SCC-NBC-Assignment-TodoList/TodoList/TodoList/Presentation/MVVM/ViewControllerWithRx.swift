@@ -140,7 +140,7 @@ extension ViewControllerWithRx {
                 cellIdentifier: "TodoTableViewCell",
                 cellType: TodoTableViewCell.self)
             ) { _, element, cell in
-                cell.configureTodoLabel(with: element)
+//                cell.configureTodoLabel(with: element, at: )
             }.disposed(by: disposeBag)
         
         // tableView 셀 선택에 대한 로직 처리

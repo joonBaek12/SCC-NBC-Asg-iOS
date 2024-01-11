@@ -15,7 +15,7 @@ final class TodoTableViewCell: UITableViewCell {
     
     static let identifier = "TodoTableViewCell"
     
-    var indexPath: IndexPath?
+    private var indexPath: IndexPath?
     
     // MARK: - UI Properties
     
@@ -101,7 +101,7 @@ extension TodoTableViewCell {
         todoLabel.applyTextProperties(textColor: textColor, strikethrough: strikethrough)
     }
     
-    func configureTodoLabel(with text: String) {
+    func configureTodoLabel(with text: String, at indexPath: IndexPath) {
         todoLabel.text = text
     }
     

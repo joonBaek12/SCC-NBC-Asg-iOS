@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		374719932B4F002200C9D498 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374719922B4F002200C9D498 /* UserDefaultsManager.swift */; };
 		37D445062B2D3AD90036A665 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D445052B2D3AD90036A665 /* AppDelegate.swift */; };
 		37D445082B2D3AD90036A665 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D445072B2D3AD90036A665 /* SceneDelegate.swift */; };
 		37D4450A2B2D3AD90036A665 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D445092B2D3AD90036A665 /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		3747198C2B4EF08A00C9D498 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		374719922B4F002200C9D498 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		37D445052B2D3AD90036A665 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37D445072B2D3AD90036A665 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		37D445092B2D3AD90036A665 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		374719912B4F000D00C9D498 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				374719922B4F002200C9D498 /* UserDefaultsManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		37D444F92B2D3AD90036A665 = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +126,7 @@
 			children = (
 				37D4452B2B3072CF0036A665 /* Extensions */,
 				37D445272B30245C0036A665 /* Components */,
+				374719912B4F000D00C9D498 /* Utilities */,
 				37D445282B3024680036A665 /* Supports */,
 				37D445132B2D3ADA0036A665 /* Info.plist */,
 			);
@@ -269,6 +280,7 @@
 			files = (
 				37D445222B2D3BDE0036A665 /* Model.swift in Sources */,
 				37D445242B2F0F010036A665 /* AddTaskHeaderView.swift in Sources */,
+				374719932B4F002200C9D498 /* UserDefaultsManager.swift in Sources */,
 				37E112032B31DDCD003740CF /* ViewModelWithRx.swift in Sources */,
 				37D445262B2F0F120036A665 /* ClearTasksFooterView.swift in Sources */,
 				37D4450A2B2D3AD90036A665 /* ViewController.swift in Sources */,

@@ -124,7 +124,7 @@ extension ViewController {
 
 extension ViewController: AddTaskHeaderViewDelegate {
     func addTaskButtonTapped(with text: String, at indexPath: IndexPath) {
-        model?.addTodo(with: text)
+        model?.addTask(text)
         todoTableView.reloadData()
     }
 }
@@ -164,7 +164,7 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            model?.deleteTodo(at: indexPath.row)
+            model?.deleteTask(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -182,14 +182,17 @@ extension ViewController: UITableViewDataSource {
         return count
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell", for: indexPath) as? TodoTableViewCell else {
             return UITableViewCell()
         }
         
         let todoText = model?.getTodo(at: indexPath.row)
-        cell.configureTodoLabel(with: todoText ?? "")
-        cell.indexPath = indexPath
+        cell.configureTodoLabel(with: todoText ?? "", at: indexPath)
         
         return cell
     }
