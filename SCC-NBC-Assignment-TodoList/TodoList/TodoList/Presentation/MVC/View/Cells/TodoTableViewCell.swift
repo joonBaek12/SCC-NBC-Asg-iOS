@@ -9,13 +9,13 @@ import UIKit
 
 // MARK: - TodoTableViewCell
 
-class TodoTableViewCell: UITableViewCell {
+final class TodoTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
     static let identifier = "TodoTableViewCell"
     
-    var indexPath: IndexPath?
+    private var indexPath: IndexPath?
     
     // MARK: - UI Properties
     
@@ -51,7 +51,7 @@ extension TodoTableViewCell {
     // MARK: - Layout Helper
     
     private func setLayout() {
-        addSubview(containerStackView)
+        contentView.addSubview(containerStackView)
         
         [todoLabel, todoSegment].forEach { containerStackView.addArrangedSubview($0) }
         
@@ -82,7 +82,7 @@ extension TodoTableViewCell {
     
     // MARK: - Reusable Helper
     
-    class func createAddTaskStackView() -> UIStackView {
+    static func createAddTaskStackView() -> UIStackView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
@@ -101,7 +101,7 @@ extension TodoTableViewCell {
         todoLabel.applyTextProperties(textColor: textColor, strikethrough: strikethrough)
     }
     
-    func configureTodoLabel(with text: String) {
+    func configureTodoLabel(with text: String, at indexPath: IndexPath) {
         todoLabel.text = text
     }
     
@@ -109,9 +109,9 @@ extension TodoTableViewCell {
         let selectedIndex = todoSegment.selectedSegmentIndex
         
         if selectedIndex == 0 {
-            setLabelProperties(textColor: .black, strikethrough: false)
-        } else {
             setLabelProperties(textColor: .gray, strikethrough: true)
+        } else {
+            setLabelProperties(textColor: .black, strikethrough: false)
         }
     }
 }

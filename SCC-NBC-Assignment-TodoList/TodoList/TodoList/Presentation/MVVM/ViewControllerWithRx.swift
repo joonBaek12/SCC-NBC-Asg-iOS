@@ -1,21 +1,22 @@
 //
-//  ViewController.swift
-//  Joon'sTodoList-iOS
+//  ViewControllerWithRx.swift
+//  TodoList
 //
-//  Created by Joon Baek on 2023/12/15.
+//  Created by Joon Baek on 2023/12/19.
 //
 
 import UIKit
 
 import RxSwift
+import RxCocoa
 
-// MARK: - ViewController
-
-class ViewController: UIViewController {
+final class ViewControllerWithRx: UIViewController {
     
     // MARK: - Properties
     
-    private var viewModel: ViewModel?
+    private let disposeBag = DisposeBag()
+    
+    var viewModel: ViewModelWithRx?
     
     // MARK: - UI Properties
     
@@ -24,7 +25,7 @@ class ViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(viewModel: ViewModel) {
+    init(viewModel: ViewModelWithRx) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,26 +41,18 @@ class ViewController: UIViewController {
         setLayout()
         setupTableHeaderAndFooterView()
         registerCells()
-        setDelegates()
+        bindViewModel()
     }
 }
 
 // MARK: - Extensions
 
-extension ViewController {
+extension ViewControllerWithRx {
+    
+    // MARK: - Layout Helpers
+    
     private func setUI() {
         view.backgroundColor = .white
-    }
-    
-    private func setDelegates() {
-        // 다운캐스팅이 필요한 이유
-        if let headerView = todoTableView.tableHeaderView as? AddTaskHeaderView {
-            headerView.delegate = self
-        }
-        
-        if let footerView = todoTableView.tableFooterView as? ClearTasksFooterView {
-            footerView.delegate = self
-        }
     }
     
     private func setLayout() {
@@ -69,7 +62,6 @@ extension ViewController {
         
         // Constraints
         NSLayoutConstraint.activate([
-            
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
@@ -77,7 +69,6 @@ extension ViewController {
             todoTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             todoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             todoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
         ])
     }
     
@@ -87,9 +78,9 @@ extension ViewController {
         
         headerView.frame = CGRect(x: 0, y: 0, width: todoTableView.bounds.width, height: 50)
         headerView.indexPath = IndexPath(row: 0, section: 0)
-        todoTableView.tableHeaderView = headerView
-        
         footerView.frame = CGRect(x: 0, y: 0, width: todoTableView.bounds.width, height: 50)
+        
+        todoTableView.tableHeaderView = headerView
         todoTableView.tableFooterView = footerView
     }
     
@@ -114,8 +105,6 @@ extension ViewController {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.backgroundColor = .clear
         
         return tableView
@@ -124,75 +113,41 @@ extension ViewController {
 
 // MARK: - Delegates
 
-extension ViewController: AddTaskHeaderViewDelegate {
+extension ViewControllerWithRx: AddTaskHeaderViewDelegate {
     func addTaskButtonTapped(with text: String, at indexPath: IndexPath) {
         viewModel?.addTodo(with: text)
         todoTableView.reloadData()
     }
 }
 
-extension ViewController: ClearTasksFooterViewDelegate {
-    func numberOfPendingTasks() -> Int {
-        viewModel?.numberOfTodos() ?? 0
-    }
-}
+//extension ViewControllerWithRx: ClearTasksFooterViewDelegate {
+//    func numberOfPendingTasks() -> Int {
+//        return viewModel?.numberOfTodos() ?? 0
+//    }
+//
+//    func clearTasksButtonTapped() {
+////        viewModel?.clearAllTodos()
+//        // 위에서 구현한 todoObservable을 통해 자동으로 갱신되므로 따로 reloadData를 호출할 필요 X
+//    }
+//}
 
-// MARK: - UITableViewDelegate
-
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let emptyHeaderView = UIView()
-
-        return emptyHeaderView
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let emptyFoorterView = UIView()
-
-        return emptyFoorterView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            viewModel?.deleteTodo(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = viewModel?.numberOfTodos() ?? 0
-        let footerView = tableView.tableFooterView as? ClearTasksFooterView
+// MARK: - Bindings
+extension ViewControllerWithRx {
+    private func bindViewModel() {
+        // tableView에 바인딩
+        viewModel?.todoObservable
+            .bind(to: todoTableView.rx.items(
+                cellIdentifier: "TodoTableViewCell",
+                cellType: TodoTableViewCell.self)
+            ) { _, element, cell in
+//                cell.configureTodoLabel(with: element, at: )
+            }.disposed(by: disposeBag)
         
-        footerView?.updateDescriptionLabel()
-        
-        return count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell", for: indexPath) as? TodoTableViewCell else {
-            return UITableViewCell()
-        }
-        
-        let todoText = viewModel?.getTodo(at: indexPath.row)
-        cell.configureTodoLabel(with: todoText ?? "")
-        cell.indexPath = indexPath
-        
-        return cell
+        // tableView 셀 선택에 대한 로직 처리
+        todoTableView.rx.itemSelected
+            .subscribe(onNext: {[weak self] indexPath in
+//                self?.viewModel.
+            })
+            .disposed(by: disposeBag)
     }
 }
