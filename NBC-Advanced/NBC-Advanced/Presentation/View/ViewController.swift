@@ -17,6 +17,7 @@ final class ViewController: UITableViewController {
         
         register()
         handleFetchData()
+        bindViewModel()
     }
 }
 
@@ -45,10 +46,17 @@ extension ViewController {
     private func handleFetchData() {
         Task {
             await viewModel.fetchData()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
+    }
+    
+    private func bindViewModel() {
+        // $ - Publisher
+        viewModel.model.$videoInfoList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &viewModel.cancellables)
     }
 }
 
@@ -64,8 +72,8 @@ extension ViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let product = viewModel.model.videoInfoList[indexPath.row]
-        presentPlayerViewController(videoURL: product.videoUrl)
+        let movie = viewModel.model.videoInfoList[indexPath.row]
+        presentPlayerViewController(videoURL: movie.videoUrl)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,10 +83,10 @@ extension ViewController {
             return UITableViewCell()
         }
         
-        let product = viewModel.model.videoInfoList[indexPath.row]
+        let movie = viewModel.model.videoInfoList[indexPath.row]
         
-        cell.setThumbnail(imageURL: product.thumbnailUrl)
-        cell.setTitle(title: product.title)
+        cell.setThumbnail(imageURL: movie.thumbnailUrl)
+        cell.setTitle(title: movie.title)
         
         return cell
     }

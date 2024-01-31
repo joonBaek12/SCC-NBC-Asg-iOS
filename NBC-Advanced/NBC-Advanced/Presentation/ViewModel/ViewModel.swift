@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import Combine
 
 final class ViewModel {
     private (set) var model = VideoInfoModel()
+    
+    var cancellables = Set<AnyCancellable>()
 }
 
 extension ViewModel {
@@ -19,12 +22,19 @@ extension ViewModel {
             )
         else { return }
         
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let videoInfoList = try JSONDecoder().decode([VideoInfoResponse].self, from: data)
-            model.videoInfoList = videoInfoList
-        } catch {
-            print("Error: \(error)")
-        }
+        URLSession.shared.dataTaskPublisher(for: url)
+        // 데이터 추출
+            .tryMap { $0.data }
+            .decode(type: [VideoInfoResponse].self, decoder: JSONDecoder())
+        // 데이터 스트림 값을 받아오기
+            .receive(on: DispatchQueue.main)
+        // 받아온 데이터 스트림값 처리
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { [weak self] videoInfoList in
+                    self?.model.videoInfoList = videoInfoList
+                }
+            )
+            .store(in: &cancellables)
     }
 }
