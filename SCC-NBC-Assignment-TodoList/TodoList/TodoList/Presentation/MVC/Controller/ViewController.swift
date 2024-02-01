@@ -182,9 +182,9 @@ extension ViewController: UITableViewDataSource {
         return count
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell", for: indexPath) as? TodoTableViewCell else {
